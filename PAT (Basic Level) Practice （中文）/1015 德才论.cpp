@@ -51,7 +51,7 @@ int main()
 	sort(v[2].begin(), v[2].end(), student_cmp);
 	sort(v[3].begin(), v[3].end(), student_cmp);
 
-	// 输出
+	// 输出 printf()比cout的执行效率高很多，使用cout输出，会出现超时的情况 
 	printf("%d\n", sum);
 	for (int i = 0; i < v[0].size(); ++i)
 		printf("%d %d %d\n", v[0][i].student_number, v[0][i].morality_score, v[0][i].talent_score);
