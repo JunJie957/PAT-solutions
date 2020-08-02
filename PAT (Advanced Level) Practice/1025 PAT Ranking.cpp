@@ -35,7 +35,7 @@ void PATRank()
 	stu s;	// temp stu object
 	vector<stu> final;	// for final rank
 	vector<stu> local;	// for local rank
-	for (int i = 0; i < n; ++i)
+	for (int i = 1; i <= n; ++i)
 	{
 		local.clear();
 		scanf("%d", &k);
@@ -43,7 +43,7 @@ void PATRank()
 		{
 			cin >> s.registration_number;
 			scanf("%d", &s.total_score);
-			s.location_number = i + 1;
+			s.location_number = i;
 			local.push_back(s);
 		}
 
