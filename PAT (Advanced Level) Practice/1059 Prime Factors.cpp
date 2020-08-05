@@ -20,12 +20,13 @@ int main()
 	// find prime
 	vector<bool> notPrime(n, 0);	// 默认[0,n]全为素数
 	vector<int> prime;
-	for (int i = 2; i <= sqrt(n); ++i)
+	int sqr_n = sqrt(n);
+	for (int i = 2; i <= sqr_n; ++i)
 	{
 		if (notPrime[i] == false)
 		{
 			prime.push_back(i);
-			for (int j = i + i; j <= sqrt(n); j += i)
+			for (int j = i + i; j <= sqr_n; j += i)
 			{
 				notPrime[j] = true; // 将此素数的所有倍数标记为非素数
 			}
@@ -34,7 +35,8 @@ int main()
 
 	// found factor
 	vector<pair<int, int>> factor;
-	for (int i = 0; i < prime.size(); ++i)
+	int p_size = prime.size();
+	for (int i = 0; i < p_size; ++i)
 	{
 		if (n % prime[i] == 0)
 		{
