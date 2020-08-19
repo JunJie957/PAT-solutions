@@ -11,7 +11,7 @@ struct node {
 	node* right;
 };
 
-// 创建一棵二叉搜索树
+// 在二叉搜索树中插入新的节点
 void insert(node*& root, int data) {
 	if (root == nullptr) {
 		root = new node;
@@ -19,42 +19,46 @@ void insert(node*& root, int data) {
 		root->left = root->right = nullptr;
 		return;
 	}
+	if (data < root->data) insert(root->left, data);
+	else insert(root->right, data);
+}
 
-	if (data < root->data) {
-		insert(root->left, data);
+// 使用数组创建一颗二叉搜索树
+node* create(vector<int> v) {
+	node* root = nullptr;
+	for (int i = 0; i < v.size(); ++i) {
+		insert(root, v[i]);
 	}
-	else {
-		insert(root->right, data);
-	}
+	return root;
 }
 
 // 先序遍历
-void preOrder(node* root, vector<int>& v) {
-	if (root == nullptr)return;
+void preOrder(node* root,vector<int>& v) {
+	if (root == nullptr) return;
 	v.push_back(root->data);
 	preOrder(root->left, v);
 	preOrder(root->right, v);
 }
 
-// 先序镜像遍历
-void preOrderMirror(node* root, vector<int>& v) {
-	if (root == nullptr)return;
-	v.push_back(root->data);
-	preOrderMirror(root->right, v);
-	preOrderMirror(root->left, v);
-}
-
 // 后序遍历
 void postOrder(node* root, vector<int>& v) {
-	if (root == nullptr)return;
+	if (root == nullptr) return;
 	postOrder(root->left, v);
 	postOrder(root->right, v);
 	v.push_back(root->data);
 }
 
+// 先序镜像遍历
+void preOrderMirror(node* root, vector<int>& v) {
+	if (root == nullptr) return;
+	v.push_back(root->data);
+	preOrderMirror(root->right, v);
+	preOrderMirror(root->left, v);
+}
+
 // 后序镜像遍历
 void postOrderMirror(node* root, vector<int>& v) {
-	if (root == nullptr)return;
+	if (root == nullptr) return;
 	postOrderMirror(root->right, v);
 	postOrderMirror(root->left, v);
 	v.push_back(root->data);
@@ -77,13 +81,14 @@ vector<int> origin, pre, post, preM, postM;
 int main()
 {
 	int n, data;
-	node* root = nullptr;
 	scanf("%d", &n);
 	for (int i = 0; i < n; ++i) {
 		scanf("%d", &data);
 		origin.push_back(data);
-		insert(root, data);	// 还原一棵二叉排序树
 	}
+
+	// 根据输入序列还原二叉搜索树
+	node* root = create(origin);
 
 	// 求先序遍历
 	preOrder(root, pre);
