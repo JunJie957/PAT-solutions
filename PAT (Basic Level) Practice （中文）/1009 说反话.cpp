@@ -1,35 +1,25 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
 #include <stack>
 using namespace std;
-
-int main()
-{
-	string s;
-	string tmp;
-	stack<string> st;
-
-	getline(cin, s);
-	for (int i = 0; i < s.size(); ++i)
-	{
-		if (s[i] != ' ')
-			tmp += s[i];
-		
-		if ((s[i] == ' ' && tmp.size() != 0) || i == s.size() - 1)
-		{
-			st.push(tmp);
-			tmp.clear();
-		}
-	}
-
-	while (st.size() > 0)
-	{
-		if (st.size() > 1) cout << st.top() << " ";
-		else cout << st.top();
-
-		st.pop();
-	}
-
-	return 0;
+int main() {
+    string str, tmp;
+    getline(cin, str);
+    
+    stack<string> res;
+    for (auto& iter : str) {
+        if (iter != ' ') tmp += iter;
+        else {
+            res.emplace(tmp);
+            tmp.clear();
+        }
+    }
+    if(!tmp.empty()) res.emplace(tmp);
+    
+    cout << res.top(); res.pop();
+    while (!res.empty()) {
+        cout << " " << res.top();
+        res.pop();
+    }
+    return 0;
 }

@@ -1,21 +1,15 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <stdio.h>
 using namespace std;
-
-int main()
-{
-	int T;
-	cin >> T;
-
-	int a, b, c;
-	for (int i = 0; i < T; ++i)
-	{
-		cin >> a >> b >> c;
-		if (b > c - a)
-			cout << "Case #" << i + 1 << ": true" << endl;
-		else
-			cout << "Case #" << i + 1 << ": false" << endl;
-	}
-	return 0;
+int main() {
+    long int k, a, b, c;
+    scanf("%d", &k);
+    for (int i = 0; i < k; ++i) {
+        scanf("%ld%ld%ld", &a, &b, &c);
+        if (a + b > c) {
+            printf("Case #%d: true\n", i + 1);
+        } else {
+            printf("Case #%d: false\n", i + 1);
+        }
+    }
+    return 0;
 }

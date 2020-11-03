@@ -1,34 +1,15 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <stack>
+#include <vector>
 using namespace std;
-
-int main()
-{
-	int a,b,d;
-
-	cin >> a >> b >> d;
-	a += b;
-	
-	if (a == 0)
-	{
-		cout << "0"; // 如果输入的和为0，则直接输出0
-		return 0;
-	}
-
-	stack<int> s;
-	while (a >= d)
-	{
-		s.push(a % d);
-		a /= d;
-	}
-	if (a != 0) s.push(a);
-	
-	while (!s.empty())
-	{
-		cout << s.top();
-		s.pop();
-	}
-
-	return 0;
+int main() {
+    int a, b, d;
+    scanf("%d%d%d", &a, &b, &d);
+    long int sum = a + b;
+    vector<int> ans;
+    do {
+        ans.emplace_back(sum % d);
+        sum /= d;
+    } while (sum != 0);
+    for (int i = ans.size() - 1; i >= 0; --i)  printf("%d", ans[i]);
+    return 0;
 }

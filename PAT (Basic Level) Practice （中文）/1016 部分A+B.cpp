@@ -1,26 +1,20 @@
 #include <iostream>
+#include <string>
 using namespace std;
+int main() {
+    string a, b, c, d, r1, r2;
+    cin >> a >> b >> c >> d;
+    int cnt1 = 0, cnt2 = 0;
 
-int main()
-{
-	string a, da, b, db;
-	int count_a = 0, count_b = 0, sum = 0;
-	
-	cin >> a >> da >> b >> db;
+    for (auto& iter : a) if (iter == b[0]) ++cnt1;
+    for (auto& iter : c) if (iter == d[0]) ++cnt2;
 
-	for (int i = 0; i < a.size(); ++i)
-		if (a[i] == da[0]) count_a++;
-			
-	for (int i = 0; i < b.size(); ++i)
-		if (b[i] == db[0]) count_b++;
+    while (--cnt1 >= 0) r1 += b[0];
+    while (--cnt2 >= 0) r2 += d[0];
 
-	for (int i = 0; i < count_a - 1; ++i) da += da[0];
-	for (int i = 0; i < count_b - 1; ++i) db += db[0];
-
-	if (count_a != 0) sum += atoi(da.c_str());
-	if (count_b != 0) sum += atoi(db.c_str());
-
-	cout << sum;
-
-	return 0;
+    int sum = 0;
+    if (!r1.empty()) sum += stoi(r1);
+    if (!r2.empty()) sum += stoi(r2);
+    printf("%d", sum);
+    return 0;
 }

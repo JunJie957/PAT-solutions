@@ -1,24 +1,14 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using namespace std;
-
-
-int main() 
-{
-    int n;
-    cin >> n;
-
-    int a, a1, b, b1, sum;// ¼×º° ¼×»® ÒÒº° ÒÒ»®
-    int count_a = 0, count_b = 0;
-    for (int i = 0; i < n; ++i)
-    {
-        scanf("%d %d %d %d", &a, &a1, &b, &b1);
-        sum = a + b;
-        if (sum == a1 && sum != b1)  ++count_b;
-        else if (sum != a1 && sum == b1) ++count_a;
+int main() {
+    int n, a, b, c, d, sum, cnt1 = 0, cnt2 = 0;
+    scanf("%d", &n);
+    for (int i = 0; i < n; ++i) {
+        scanf("%d%d%d%d", &a, &b, &c, &d);
+        sum = a + c;
+        if (b != sum && d == sum) ++cnt1;
+        if (b == sum && d != sum) ++cnt2;
     }
-    cout << count_a << " " << count_b;
+    printf("%d %d", cnt1, cnt2);
     return 0;
 }
-
-
