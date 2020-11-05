@@ -1,36 +1,27 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
+#include <map>
 #include <unordered_map>
 using namespace std;
+int main() {
+    int n, m, cnt = 0;
+    double k;
+    unordered_map<int, double> um;
+    map<int, double, greater<int>> res;
 
-vector<float> v(2001, 0);
-int main()
-{
-	float b;
-	int k, a;
-	scanf("%d", &k);
-	
-	unordered_map<int, float> um;
-	for (int i = 0; i < k; ++i) {	/* 输入 */
-		scanf("%d%f", &a, &b);
-		um[a] = b;
-	}
+    scanf("%d", &n);
+    for (int i = 0; i < n; ++i) {
+        scanf("%d %lf", &m, &k);
+        um[m] = k;
+    }
 
-	scanf("%d", &k);
-	for (int i = 0; i < k; ++i) {	/* 乘法计算 */
-		scanf("%d%f", &a, &b);
-		for (auto& iter : um) 
-			v[iter.first + a] += iter.second * b;
-	}
+    scanf("%d", &n);
+    for (int i = 0; i < n; ++i) {
+        scanf("%d %lf", &m, &k);
+        for (auto& iter : um) res[m + iter.first] += iter.second * k;
+    }
 
-	int count = 0;
-	for (int i = 0; i <= 2000; ++i) /* 统计非零项的个数 */
-		if (v[i] != 0) ++count;
-
-	printf("%d", count);
-	for (int i = 2000; i >= 0; --i) /* 按格式输出 */
-		if (v[i] != 0) printf(" %d %.1f", i, v[i]);
-	
-	return 0;
+    for (auto& iter : res) if (iter.second != 0) ++cnt;
+    printf("%d", cnt);
+    for (auto& iter : res) if (iter.second != 0) printf(" %d %0.1lf", iter.first, iter.second);
+    return 0;
 }
