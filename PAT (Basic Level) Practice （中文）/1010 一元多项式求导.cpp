@@ -1,28 +1,18 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <stdio.h>
 using namespace std;
-
-int main()
-{
-	int i, j;
-	bool flag = false;
-
-	while (scanf("%d%d", &i, &j) != EOF)
-	{
-		if (j != 0)
-		{
-			if (flag == false)
-			{
-				cout << i * j << " " << j - 1;
-				flag = true;
-			}
-			else
-			{
-				cout << " " << i * j << " " << j - 1;
-			}
-		}
-	}
-	if (flag == false)  cout << "0 0";
-	return 0;
+int main() {
+    int n, m;
+    bool flag = true;
+    while (scanf("%d %d", &n, &m) != EOF) {
+        if (n * m != 0) {
+            if (flag) {
+                printf("%d %d", n * m, m - 1);
+                flag = false;
+            } else {
+                printf(" %d %d", n * m, m - 1);
+            }
+        }
+    }
+    if (flag) printf("0 0");
+    return 0;
 }

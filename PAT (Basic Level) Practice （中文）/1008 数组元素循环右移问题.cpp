@@ -1,25 +1,25 @@
 #include <iostream>
-#include <stdlib.h>
-#include <string.h>
+#include <vector>
 using namespace std;
 
-int main()
-{
-	int n, m;
-	int arr[101] = { 0 };
+bool flag = false;
+void myPrint(vector<int>& nums, int begin, int end) {
+    for (int i = begin; i < end; ++i) {
+        if (!flag) {
+            flag = true;
+            printf("%d", nums[i]);
+        } else {
+            printf(" %d", nums[i]);
+        }
+    }
+}
 
-	cin >> n >> m;
-	m %= n;
-
-	for (int i = 0; i < n; ++i) cin >> arr[i];
-	
-	for (int i = n - m; i < n; ++i)
-		if (n - m == 0 && i == n - 1) cout << arr[i];
-		else cout << arr[i] << " ";
-
-	for (int i = 0; i < n - m; ++i)
-		if (i == n - m - 1) cout << arr[i];
-		else cout << arr[i] << " ";
-			
-	return 0;
+int main() {
+    int n, m;
+    scanf("%d%d", &n, &m);
+    vector<int> nums(n);
+    for (int i = 0; i < n; ++i) scanf("%d", &nums[i]);
+    myPrint(nums, n - (m % n), n);
+    myPrint(nums, 0, n - (m % n));
+    return 0;
 }

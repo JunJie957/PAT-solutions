@@ -1,120 +1,42 @@
 #include <iostream>
-#include <string>
+#include <vector>
 using namespace std;
 
-struct win
-{
-	int win_count;
-	int lose_count;
-	int equal_count;
-	int win_c;
-	int win_j;
-	int win_b;
+int judge(char& a, char& b) {
+    if (a == b) return 1; 
+    if ((a == 'C' && b == 'J') || (a == 'J' && b == 'B') ||  (a == 'B' && b == 'C')) return 2;
+    return 3;
+}
 
-	win(int win, int lose, int equal, int c, int j, int b) 
-	:win_count(win),
-	lose_count(lose),
-	equal_count(equal),
-	win_c(c), 
-	win_j(j), 
-	win_b(b){}
-};
-
-int main()
-{
-	int n;
-	cin >> n;
-
-	char a, b;
-	win people_a(0, 0, 0, 0, 0, 0);
-	win people_b(0, 0, 0, 0, 0, 0);
-
-	for (int i = 0; i < n; ++i)
-	{
-		cin >> a >> b;
-		if (a == 'C')
-		{
-			if (b == 'C')
-			{
-				people_a.equal_count++;
-				people_b.equal_count++;
-			}
-			else if (b == 'J')
-			{
-				people_a.win_count++;
-				people_a.win_c++;
-				people_b.lose_count++;
-			}
-			else if (b == 'B')
-			{
-				people_a.lose_count++;
-				people_b.win_count++;
-				people_b.win_b++;
-			}
-		}
-		else if (a == 'J')
-		{
-			if (b == 'C')
-			{
-				people_a.lose_count++;
-				people_b.win_count++;
-				people_b.win_c++;
-			}
-			else if (b == 'J')
-			{
-				people_a.equal_count++;
-				people_b.equal_count++;
-			}
-			else if (b == 'B')
-			{
-				people_a.win_count++;
-				people_a.win_j++;
-				people_b.lose_count++;
-			}
-		}
-		else if (a == 'B')
-		{
-			if (b == 'C')
-			{
-				people_a.win_count++;
-				people_a.win_b++;
-				people_b.lose_count++;
-			}
-			else if (b == 'J')
-			{
-				people_a.lose_count++;
-				people_b.win_count++;
-				people_b.win_j++;
-			}
-			else if (b == 'B')
-			{
-				people_a.equal_count++;
-				people_b.equal_count++;
-			}
-		}
-	}
-
-	printf("%d %d %d\n", people_a.win_count, people_a.equal_count, people_a.lose_count);
-	printf("%d %d %d\n", people_b.win_count, people_b.equal_count, people_b.lose_count);
-	
-	if (people_a.win_b >= people_a.win_c)
-	{
-		if (people_a.win_b >= people_a.win_j) printf("B ");
-		else printf("J ");
-	}	
-	else if (people_a.win_c >= people_a.win_j) printf("C ");
-	else printf("J ");
-		
-
-	if (people_b.win_b >= people_b.win_c)
-	{
-		if (people_b.win_b >= people_b.win_j) printf("B");
-		else printf("J");
-	}
-	else if (people_b.win_c >= people_b.win_j) printf("C");
-	else printf("J");
-		
-
-	return 0;
-
+int main() {
+    int n;
+    scanf("%d", &n);
+    char a, b;
+    vector<vector<int>> v(2, vector<int>(3, 0));    // 记录胜平负的次数
+    vector<vector<int>> w(2, vector<int>(3, 0));    // 记录胜的时候的手势
+    for (int i = 0; i < n; ++i) {
+        cin >> a >> b;
+        int res = judge(a, b);
+        if (res == 1) {
+            ++v[0][1]; ++v[1][1];   // 平
+        } else if (res == 2) {
+            ++v[0][0]; ++v[1][2];   // 甲胜
+            if (a == 'C') ++w[0][0];
+            else if (a == 'J') ++w[0][1];
+            else if (a == 'B') ++w[0][2];
+        } else if (res == 3) {
+            ++v[0][2]; ++v[1][0];   // 甲输
+            if (b == 'C') ++w[1][0];
+            else if (b == 'J') ++w[1][1];
+            else if (b == 'B') ++w[1][2];
+        }
+    }
+    printf("%d %d %d\n%d %d %d\n", v[0][0], v[0][1], v[0][2], v[1][0], v[1][1], v[1][2]);
+    if (w[0][2] >= w[0][0] && w[0][2] >= w[0][1])      printf("B");
+    else if (w[0][0] >= w[0][1] && w[0][0] >= w[0][2]) printf("C");
+    else if (w[0][1] >= w[0][0] && w[0][1] >= w[0][2]) printf("J");
+    if (w[1][2] >= w[1][0] && w[1][2] >= w[1][1])      printf(" B");
+    else if (w[1][0] >= w[1][1] && w[1][0] >= w[1][2]) printf(" C");
+    else if (w[1][1] >= w[1][0] && w[1][1] >= w[1][2]) printf(" J");
+    return 0;
 }
