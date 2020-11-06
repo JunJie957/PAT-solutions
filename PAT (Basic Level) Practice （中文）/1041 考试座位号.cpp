@@ -1,37 +1,21 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <string>
 #include <unordered_map>
 using namespace std;
-
-struct examinee
-{
-    string exam_num;
-    int loc;
-};
-
-int main() 
-{
-    int n, test_num;
-    cin >> n;
-
-    examinee e;
-    unordered_map<int, examinee> m;
-    for (int i = 0; i < n; ++i)
-    {
-       cin >> e.exam_num >> test_num >> e.loc;
-        m.insert(pair<int, examinee>(test_num, e));
+int main() {
+    string str;
+    int n, m, x, y;
+    unordered_map<int, pair<string, int>> um;
+    
+    scanf("%d", &n);
+    for (int i = 0; i < n; ++i) {
+        cin >> str >> x >> y;
+        um[x] = make_pair(str, y);
     }
 
-    cin >> n;
-    for (int i = 0; i < n; ++i)
-    {
-        cin >> test_num;
-        auto iter = m.find(test_num);
-        if (iter != m.end())
-            cout << iter->second.exam_num << " " << iter->second.loc << endl;
+    scanf("%d", &m);
+    for (int i = 0; i < m; ++i) {
+        scanf("%d", &x);
+        printf("%s %d\n", um[x].first.c_str(), um[x].second);
     }
     return 0;
 }
-
-
