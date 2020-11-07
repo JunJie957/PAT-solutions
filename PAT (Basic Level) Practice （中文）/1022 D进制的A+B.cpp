@@ -1,15 +1,15 @@
 #include <iostream>
-#include <vector>
+#include <string>
 using namespace std;
 int main() {
-    int a, b, d;
-    scanf("%d%d%d", &a, &b, &d);
-    long int sum = a + b;
-    vector<int> ans;
-    do {
-        ans.emplace_back(sum % d);
-        sum /= d;
-    } while (sum != 0);
-    for (int i = ans.size() - 1; i >= 0; --i)  printf("%d", ans[i]);
-    return 0;
+	int a, b, d;
+	scanf("%d%d%d", &a, &b, &d);
+	string res;
+	int num = a + b;
+	do {
+		res += to_string(num % d);
+		num /= d;
+	} while (num != 0);
+	for (auto iter = res.rbegin(); iter != res.rend(); ++iter) cout << *iter;
+	return 0;
 }
