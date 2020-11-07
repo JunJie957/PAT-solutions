@@ -1,23 +1,21 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
 using namespace std;
-
 int main() {
-	int m;
-	scanf("%d", &m);
-	string id, in, out, earlier = "23:59:59", last = "00:00:00", earlier_id, last_id;
-	for (int i = 0; i < m; ++i) {
-		cin >> id >> in >> out;
-		if (in.compare(earlier) < 0) { /* 最早到达 */
-			earlier = in;
-			earlier_id = id;
-		}
-		if (out.compare(last) > 0) { /* 最晚离开 */
-			last = out;
-			last_id = id;
-		}
-	}
-	printf("%s %s", earlier_id.c_str(), last_id.c_str());
-	return 0;
+    int n;
+    string id, in, out, id_in, id_out, signin = "23:59:59", signout = "00:00:00";
+    scanf("%d", &n);
+    while(n--) {
+        cin >> id >> in >> out;
+        if (in < signin) {
+            signin = in;
+            id_in = id;
+        }
+        if (out > signout) {
+            signout = out;
+            id_out = id;
+        }
+    }
+    cout << id_in << " " << id_out;
+    return 0;
 }

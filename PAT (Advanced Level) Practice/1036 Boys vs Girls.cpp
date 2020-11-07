@@ -1,56 +1,24 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
+#include <string>
 using namespace std;
-
-struct stu {
-	string name;
-	string sex;
-	string ID;
-	int grade;
-	stu() :grade(-1) {};
-};
-
-int main()
-{
-	int n;
-	scanf("%d", &n);
-
-	int female_max_grade = -1, male_lowst_grade = 101;
-	stu tmp, boy, girl;
-	for (int i = 0; i < n; ++i) {
-		cin >> tmp.name >> tmp.sex >> tmp.ID >> tmp.grade;
-		if (tmp.sex.compare("F") == 0 && female_max_grade < tmp.grade) {
-			girl = tmp;
-			female_max_grade = tmp.grade;
-		}
-		else if (tmp.sex.compare("M") == 0 && male_lowst_grade > tmp.grade) {
-			boy = tmp;
-			male_lowst_grade = tmp.grade;
-		}
-	}
-
-	if (girl.grade == -1) {
-		printf("Absent\n");
-	}
-	else {
-		printf("%s %s\n", girl.name.c_str(), girl.ID.c_str());
-	}
-	
-	if (boy.grade == -1) {
-		printf("Absent\n");
-	}
-	else {
-		printf("%s %s\n", boy.name.c_str(), boy.ID.c_str());
-	}
-
-	if (boy.grade == -1 || girl.grade == -1) {
-		printf("NA");
-	}
-	else {
-		printf("%d", abs(boy.grade - girl.grade));
-	}
-
-	return 0;
+int main() {
+    int n, grade, max_f = -1, min_m = 101, f_g, m_g;
+    scanf("%d", &n);
+    string name, gender, id, f_name, f_id, m_name, m_id;
+    for (int i = 0; i < n; ++i) {
+        cin >> name >> gender >> id >> grade;
+        if (gender == "F" && grade > max_f) {
+            max_f = grade; f_name = name; f_id = id; f_g = grade;
+        }
+        if (gender == "M" && grade < min_m) {
+            min_m = grade; m_name = name; m_id = id; m_g = grade;
+        }
+    }
+    if (max_f != -1) printf("%s %s\n", f_name.c_str(), f_id.c_str());
+    else printf("Absent\n");
+    if (min_m != 101) printf("%s %s\n", m_name.c_str(), m_id.c_str());
+    else printf("Absent\n");
+    if (max_f != -1 && min_m != 101) printf("%d", f_g - m_g);
+    else printf("NA");
+    return 0;
 }
-
