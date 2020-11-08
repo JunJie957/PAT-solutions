@@ -1,28 +1,20 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <unordered_map>
 #include <string>
 using namespace std;
-
-string spell[10] = {
-		"ling","yi", "er", "san",
-		"si","wu","liu","qi","ba",
-		"jiu"
+unordered_map<char, string> um {
+	{0,"ling"}, {1,"yi"},  {2,"er"}, {3,"san"}, {4,"si"}, 
+	{5,"wu"},   {6,"liu"}, {7,"qi"}, {8,"ba"},  {9,"jiu"}
 };
-
-int main()
-{
-	string number;
-	cin >> number;
-
+int main() {
+	string str;
+	cin >> str;
 	int sum = 0;
-	for (unsigned int i = 0; i < number.size(); ++i)
-		sum += (number[i] - '0');
-
-	string tmp = to_string(sum);
-	for (unsigned int i = 0; i < tmp.size() - 1; ++i)
-		cout << spell[tmp[i] - '0'] << " ";
-
-	cout << spell[tmp[tmp.size() - 1] - '0'];
-
-	return EXIT_SUCCESS;
+	for (auto& iter : str) sum += iter - '0';
+	str = to_string(sum);
+	for (auto& iter : str) {
+		if(iter != *str.begin()) printf(" ");
+		printf("%s", um[iter - '0'].c_str());
+	}
+	return 0;
 }

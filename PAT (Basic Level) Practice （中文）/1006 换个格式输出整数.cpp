@@ -1,23 +1,10 @@
 #include <iostream>
 using namespace std;
-
-int main()
-{
+int main() {
 	int n;
-	cin >> n;
-
-	int num_B = n / 100;
-	int num_S = n % 100 / 10;
-	int num_N = n % 10;
-
-	for (int i = 0; i < num_B; ++i)
-		cout << "B";
-
-	for (int i = 0; i < num_S; ++i)
-		cout << "S";
-
-	for (int i = 0; i < num_N; ++i)
-		cout << i + 1;
-
+	scanf("%d", &n);
+	for (int i = 0; i < n / 100; ++i) printf("B");
+	for (int i = 0; i < (n % 100) / 10; ++i) printf("S");
+	for (int i = 1; i <= n % 10; ++i) printf("%d", i);
 	return 0;
 }

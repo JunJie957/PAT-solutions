@@ -1,54 +1,29 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <map>
 #include <vector>
-#include <algorithm>
 using namespace std;
-
-int main()
-{
-	int arr[] = { 7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2 };
-	char m[] =  { '1','0','X','9','8','7','6','5','4','3','2'};
-
-	int n;
-	cin >> n;
-	
-	string str;
-	bool all_passed = true;
-	for (int i = 0; i < n; ++i)
-	{
-		cin >> str;
-
-		// 处理身份证前17位
-		bool str_flag = true;
-		int sum = 0;		// 记得每次计算完毕，sum要清零
-		for (int j = 0; j < str.size() - 1; ++j)
-		{
-			if (str[j] >= '0' && str[j] <= '9')
-			{
-				int tmp = str[j] - '0';
-				sum += tmp * arr[j];
+vector<int> power{ 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+map<int, char> m{ {0,'1'}, {1,'0'}, {2,'X'}, {3,'9'} ,{4,'8'}, {5,'7'},
+				  {6,'6'}, {7,'5'}, {8,'4'}, {9,'3'}, {10,'2'}, };
+int main() {
+	int n, cnt = 0;
+	scanf("%d", &n);
+	string s;
+	for (int i = 0; i < n; ++i) {
+		cin >> s;
+		int sum = 0, flag = 1;
+		for (int i = 0; i < 17; ++i) {
+			if (s[i] < '0' || s[i] > '9') {
+				flag = 0; break;
 			}
-			else
-			{
-				cout << str << endl;
-				str_flag = false;
-				all_passed = false;
-				break;
-			}
+			sum += (s[i] - '0') * power[i];
 		}
-
-		// 处理最后一位
-		if (str_flag)
-		{
-			sum %= 11;
-			if (m[sum] != str[17])
-			{
-				all_passed = false;
-				cout << str << endl;
-			}
+		if (flag && m[sum % 11] == s.back()) {
+			++cnt;
+		} else {
+			cout << s << endl;
 		}
 	}
-	if (all_passed) cout << "All passed" << endl;
-
+	if (cnt == n) cout << "All passed";
 	return 0;
 }

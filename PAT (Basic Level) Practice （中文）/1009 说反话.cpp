@@ -1,25 +1,23 @@
 #include <iostream>
 #include <string>
-#include <stack>
+#include <vector>
 using namespace std;
 int main() {
-    string str, tmp;
-    getline(cin, str);
-    
-    stack<string> res;
-    for (auto& iter : str) {
-        if (iter != ' ') tmp += iter;
-        else {
-            res.emplace(tmp);
-            tmp.clear();
-        }
-    }
-    if(!tmp.empty()) res.emplace(tmp);
-    
-    cout << res.top(); res.pop();
-    while (!res.empty()) {
-        cout << " " << res.top();
-        res.pop();
-    }
-    return 0;
+	string str, word;
+	getline(cin, str);
+	vector<string> v;
+	for (auto& iter : str) {
+		if (iter == ' ') {
+			v.emplace_back(word);
+			word.clear();
+		} else {
+			word += iter;
+		}
+	}
+	v.emplace_back(word);
+	for (int i = v.size() - 1; i >= 0; --i) {
+		printf("%s", v[i].c_str());
+		if (i != 0) printf(" ");
+	} 
+	return 0;
 }

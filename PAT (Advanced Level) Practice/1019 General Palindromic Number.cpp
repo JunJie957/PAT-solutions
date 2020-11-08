@@ -1,30 +1,26 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
-#include <algorithm>
 using namespace std;
-
-int main()
-{
-    int n, b;
-    vector<int> v, rev;
-    scanf("%d%d", &n, &b);
-
-    do {
-        v.push_back(n % b);
-        n /= b;
-    } while (n != 0);
-
-    rev = v;
-    reverse(v.begin(), v.end());
-
-    if (rev == v) printf("Yes\n");
-    else printf("No\n");
-
-    int size = v.size();
-    printf("%d", v[0]);
-    for (int i = 1; i < size; ++i) {
-        printf(" %d", v[i]);
-    }
-    return 0;
+int main() {
+	int n, b;
+	scanf("%d%d", &n, &b);
+	vector<int> nums;
+	while (n != 0) {
+		nums.emplace_back(n % b);
+		n /= b;
+	}
+	int left = 0, right = nums.size() - 1, flag = true;
+	while (left < right) {
+		if (nums[left++] != nums[right--]) {
+			printf("No\n");
+			flag = false;
+			break;
+		}
+	}
+	if (flag) printf("Yes\n");
+	for (int i = nums.size() - 1; i >= 0; --i) {
+		printf("%d", nums[i]);
+		if (i != 0) printf(" ");
+	}
+	return 0;
 }
