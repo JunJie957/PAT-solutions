@@ -1,44 +1,28 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <string>
 #include <vector>
-#include <algorithm>
 using namespace std;
-
-int main()
-{
+int main() {
 	int n;
 	scanf("%d", &n);
-	string name, passwd;
-	int count_not_modify = 0;
-	vector<pair<string, string>> v;
+	string name,password;
+	vector<pair<string, string>> ans;
 	for (int i = 0; i < n; ++i) {
-		cin >> name >> passwd;
-		// ÕÒÃÜÂë
-		if (passwd.find('1') != passwd.npos || passwd.find('0') != passwd.npos
-			|| passwd.find('l') != passwd.npos || passwd.find('O') != passwd.npos) {
-			for (auto& iter : passwd) { // ÐÞ¸ÄÃÜÂë
-				if (iter == '1') iter = '@';
-				else if (iter == '0') iter = '%';
-				else if (iter == 'l') iter = 'L';
-				else if (iter == 'O') iter = 'o';
-			}
-			v.push_back(make_pair(name, passwd));
+		cin >> name >> password;
+		string temp = password;
+		for (auto& iter : temp) {
+			if (iter == '1') iter = '@';
+			else if (iter == '0') iter = '%';
+			else if (iter == 'l') iter = 'L';
+			else if (iter == 'O') iter = 'o';
 		}
-		else {
-			++count_not_modify;
-		}
+		if (temp.compare(password) != 0) ans.emplace_back(name, temp);
 	}
-
-	if (v.size() == 0) {
-		if (count_not_modify == 1) 
-			printf("There is 1 account and no account is modified");
-		else 
-			printf("There are %d accounts and no account is modified", n);
-	}
+	if (ans.empty() && n == 1) printf("There is 1 account and no account is modified");
+	else if (ans.empty()) printf("There are %d accounts and no account is modified", n);
 	else {
-		printf("%d\n", v.size());
-		for (const auto& iter : v)
-			printf("%s %s\n", iter.first.c_str(), iter.second.c_str());
+		printf("%d\n", ans.size());
+		for (auto& iter : ans) printf("%s %s\n", iter.first.c_str(), iter.second.c_str());
 	}
 	return 0;
 }

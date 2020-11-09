@@ -1,59 +1,28 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <string>
 using namespace std;
-
-int main()
-{
-	string s;
-	cin >> s;
-
-	// 符号位
-	if (s[0] == '-') cout << "-";
-	
-	string integer;	// 整数部分
-	string index;	// 指数部分
-	for (int i = 1; i < s.size(); ++i)
-	{
-		if (s[i] != 'E')
-			integer += s[i];
-		else
-		{
-			index = s.substr(i + 1);
-			break;
+int main() {
+	string str;
+	cin >> str;
+	string res = str.substr(0, str.find('E'));		// 小数
+	int num = stoi(str.substr(str.find('E') + 1));	// 指数
+	int point = res.find('.');
+	if (num >= 0) {
+		int dis = res.length() - point - 1;
+		if (dis <= num) {
+			res.erase(res.begin() + point);
+			dis = res.length() - point - 1;
+			for (int i = num - dis - 1; i > 0; --i) res += "0";
+		} else {
+			res.insert(point + num + 1, ".");
+			res.erase(res.begin() + point);
 		}
+	} else {
+		res.erase(res.begin() + point);
+		for (int i = 0; i < -num; ++i) res.insert(1, "0");
+		res.insert(2, ".");
 	}
-	
-	int index_i = atof(index.c_str());
-	if (index_i > 0)
-	{
-		int loc = integer.size() - 2;		// 小数点和最后一位数之间的距离
-		integer.erase(integer.begin() + 1); // 删除小数点
-
-		if (loc > index_i)
-		{
-			// 将小数点后移 index_i 位
-			integer.insert(integer.begin() + index_i + 1, '.');
-		}
-		else if(loc < index_i)
-		{
-			// 在数字末尾添加对应数量的零
-			for (int i = 0; i < index_i - loc; ++i)
-				integer += '0';
-		}
-	}
-	else if(index_i < 0)
-	{
-		integer.erase(integer.begin() + 1); // 删除小数点
-	
-		// 在整数部分前面填零
-		for (int i = 0; i < abs(index_i) - 1; ++i)
-			integer.insert(integer.begin(), '0');
-		
-		// 添加整数部分和小数点
-		integer.insert(integer.begin(), '.');
-		integer.insert(integer.begin(), '0');
-	}
-
-	cout << integer << endl;
+	if (res[0] == '+') res.erase(res.begin());
+	cout << res;
 	return 0;
 }

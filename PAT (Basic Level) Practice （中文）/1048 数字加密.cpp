@@ -1,43 +1,28 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <algorithm>
+#include <string>
 using namespace std;
-
-int main() 
-{
-    string a, b;
-    cin >> a >> b;
-
-    reverse(a.begin(), a.end());
-    reverse(b.begin(), b.end());
-
-    if (a.size() > b.size()) 
-        b.append(a.size() - b.size(), '0');
-    else  
-        a.append(b.size() - a.size(), '0');
-
-    string c;
-    int temp;
-    int len = a.size();
-    char str[14] = { "0123456789JQK" };
-    for (int i = 0; i < len; ++i)
-    {
-        if ((i + 1) % 2 == 0)
-        {
-            temp = b[i] - a[i];
-            if (temp < 0) temp += 10;
-            c += str[temp];
-        }
-        else
-        {
-            c += str[(b[i] - '0' + a[i] - '0') % 13];
-        }
-    }
-
-    for (int i = c.length() - 1; i >= 0; --i)
-        printf("%c", c[i]);
-    
-    return 0;
+int main() {
+	string a, b;
+	cin >> a >> b;
+	bool flag = true;	// true - ÆæÊý
+	while (a.length() < b.length()) a.insert(0, "0");
+	while (a.length() > b.length()) b.insert(0, "0");
+	for (int i = b.length() - 1; i >= 0; --i) {
+		if (flag) {
+			int add = ((b[i] - '0') + (a[i] - '0')) % 13;
+			if (add < 10) b[i] = add + '0';
+			else if (add == 10) b[i] = 'J';
+			else if (add == 11) b[i] = 'Q';
+			else if (add == 12) b[i] = 'K';
+			flag = false;
+		}
+		else {
+			int sub = ((b[i] - '0') - (a[i] - '0'));
+			if (sub < 0) sub += 10;
+			b[i] = sub + '0';
+			flag = true;
+		}
+	}
+	cout << b;
+	return 0;
 }
-
-
