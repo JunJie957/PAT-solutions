@@ -1,30 +1,22 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
-#include <set>
+#include <vector>
+#include <unordered_map>
 using namespace std;
-
-int main()
-{
-	string full_str, lack_str;
-	cin >> full_str >> lack_str;
-
-	set<char> s;
-	char tmp;
-	int loc = -1;
-	for (int i = 0; i < full_str.size(); ++i)
-	{
-		tmp = full_str[i];
-		loc = lack_str.find(tmp);
-		if (loc == -1)
-		{
-			if (tmp >= 'a' && tmp <= 'z') tmp -= 32;
-			if (s.find(tmp) == s.end())
-			{
-				cout << tmp;
-				s.insert(tmp);
-			}
-		}
+int main() {
+	string s1, s2;
+	cin >> s1 >> s2;
+	unordered_map<char, int> um;
+	for (int i = s1.length() - 1; i >= 0; --i) {
+		if (islower(s1[i])) s1[i] = toupper(s1[i]);
+		um[s1[i]] = i;
 	}
+	for (int i = s2.length() - 1; i >= 0; --i) {
+		if (islower(s2[i])) s2[i] = toupper(s2[i]);
+		um.erase(s2[i]);
+	}
+	vector<char> res(s1.length(), ' ');
+	for (auto& iter : um) res[iter.second] = iter.first;
+	for (auto& iter : res) if (iter != ' ') printf("%c", iter);
 	return 0;
 }

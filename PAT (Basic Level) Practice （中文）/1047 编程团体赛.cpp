@@ -1,38 +1,18 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <unordered_map>
 using namespace std;
-
-int main() 
-{
-    int n;
-    cin >> n;
-
-    unordered_map<int, int> m;
-    unordered_map<int, int>::iterator iter;
-    int team_num, player_num, score;
-
-    for (int i = 0; i < n; ++i)
-    {
-        scanf("%d-%d %d", &team_num, &player_num, &score);
-        iter = m.find(team_num);
-       
-        if (iter != m.end()) iter->second += score;
-        else  m.insert(pair<int, int>(team_num, score));
-    }
-
-    int max = -1, number = -1;
-    for (iter = m.begin(); iter != m.end(); ++iter)
-    {
-        if (iter->second > max)
-        {
-            max = iter->second;
-            number = iter->first;
+int main() {
+    int n, team, number, score, max_score = 0, max_id = 0;
+    scanf("%d", &n);
+    unordered_map<int, int> um;
+    for (int i = 0; i < n; ++i) {
+        scanf("%d-%d%d", &team, &number, &score);
+        um[team] += score;
+        if (max_score < um[team]) {
+            max_id = team;
+            max_score = um[team];
         }
     }
-    cout << number << " " << max;
-   
+    printf("%d %d", max_id, um[max_id]);
     return 0;
 }
-
-

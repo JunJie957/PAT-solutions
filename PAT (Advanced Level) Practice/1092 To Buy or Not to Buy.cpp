@@ -1,40 +1,20 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <algorithm>
 #include <unordered_map>
-#include <unordered_set>
 using namespace std;
-
-int main()
-{
+int main() {
     string a, b;
     cin >> a >> b;
-
-    unordered_map<char, int> eva;
-    unordered_map<char, int> owner;
-    for (auto& iter : b) eva[iter]++;
-    for (auto& iter : a) owner[iter]++;
-
-    int missing = 0, buy_extra = 0;;
-    for (auto& iter : owner) {
-        auto find = eva.find(iter.first);
-        if (find != eva.end()) {
-            if (find->second <= iter.second) {
-                buy_extra += iter.second - find->second;
-            } else {
-                missing += find->second - iter.second;
-            }
-        } else {
-            buy_extra += iter.second;
-        }
-        eva.erase(iter.first);
+    unordered_map<char, int> shop, need;
+    for (auto& iter : a) ++shop[iter];
+    int missing = 0, extra = 0;
+    for (auto& iter : b) {
+        if (shop.find(iter) != shop.end()) {
+           if(--shop[iter] == 0) shop.erase(iter);
+        } else ++missing;
     }
-    for (auto& iter : eva) missing += iter.second;
-
-    if (missing) {
-        printf("No %d", missing);
-    } else {
-        printf("Yes %d", buy_extra);
-    }
+    for (auto& iter : shop) extra += iter.second;
+    if (missing == 0) cout << "Yes " << extra;
+    else cout << "No " << missing;
     return 0;
 }

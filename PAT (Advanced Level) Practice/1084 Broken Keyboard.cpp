@@ -1,32 +1,22 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <unordered_set>
+#include <string>
+#include <vector>
+#include <unordered_map>
 using namespace std;
-
-int main()
-{
-    string a, b;
-    cin >> a >> b;
-    unordered_set<char> us, loss;
-
-    for (auto& iter : b) 
-        us.insert(iter);
-
-    for (auto& iter : a) {
-        if (us.find(iter) == us.end()) {
-            if (loss.find(iter) == loss.end()) {
-                loss.insert(iter);
-                if (iter >= 'a' && iter <= 'z') {
-                    loss.insert(toupper(iter));
-                    printf("%c", toupper(iter));
-                } else if (iter >= 'A' && iter <= 'Z') {
-                    loss.insert(tolower(iter));
-                    printf("%c", iter);
-                } else {
-                    printf("%c", iter);
-                }
-            }
-        }
-    }
-    return 0;
+int main() {
+	string s1, s2;
+	cin >> s1 >> s2;
+	unordered_map<char, int> um;
+	for (int i = s1.length() - 1; i >= 0; --i) {
+		if (islower(s1[i])) s1[i] = toupper(s1[i]);
+		um[s1[i]] = i;
+	}
+	for (int i = s2.length() - 1; i >= 0; --i) {
+		if (islower(s2[i])) s2[i] = toupper(s2[i]);
+		um.erase(s2[i]);
+	}
+	vector<char> res(s1.length(), ' ');
+	for (auto& iter : um) res[iter.second] = iter.first;
+	for (auto& iter : res) if (iter != ' ') printf("%c", iter);
+	return 0;
 }
