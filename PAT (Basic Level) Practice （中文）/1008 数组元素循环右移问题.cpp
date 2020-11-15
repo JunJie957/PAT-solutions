@@ -1,19 +1,14 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-
-bool flag = false;
+bool space = false;
 void myPrint(vector<int>& nums, int begin, int end) {
     for (int i = begin; i < end; ++i) {
-        if (!flag) {
-            flag = true;
-            printf("%d", nums[i]);
-        } else {
-            printf(" %d", nums[i]);
-        }
+        if (space) printf(" ");
+        else space = true;
+        printf("%d", nums[i]);
     }
 }
-
 int main() {
     int n, m;
     scanf("%d%d", &n, &m);

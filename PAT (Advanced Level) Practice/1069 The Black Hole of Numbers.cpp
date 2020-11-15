@@ -1,45 +1,18 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
-#include <vector>
-#include <algorithm>
 #include <string>
+#include <algorithm>
 using namespace std;
-
-int main()
-{
-	string n;
-	cin >> n;
-
-	while (n.length() < 4)
-	{
-		n.append("0");	// 不足位补零
-	}
-
-	sort(n.begin(), n.end(), greater<int>());
-	int r1 = atoi(n.c_str());
-
-	sort(n.begin(), n.end());
-	int r2 = atoi(n.c_str());
-	int ans = r1 - r2;
-	printf("%04d - %04d = %04d\n", r1, r2, ans);
-
-	// 验证是否是相同位的数字
-	while (ans != 6174 && ans != 0)
-	{
-		n = std::to_string(ans);
-		while (n.length() < 4)
-		{
-			n.append("0");	// 不足位补零
-		}
-
-		sort(n.begin(), n.end(), greater<int>());
-		r1 = atoi(n.c_str());
-
-		sort(n.begin(), n.end());
-		r2 = atoi(n.c_str());
-
-		ans = r1 - r2;
-		printf("%04d - %04d = %04d\n", r1, r2, ans);
-	}
+int main() {
+	string s;
+	cin >> s;
+	s.insert(0, 4 - s.size(), '0');
+	do {
+		string a = s, b = s;
+		sort(a.begin(), a.end(), greater<char>());
+		sort(b.begin(), b.end(), less<char>());
+		s = to_string(stoi(a) - stoi(b));
+		s.insert(0, 4 - s.size(), '0');
+		cout << a << " - " << b << " = " << s << endl;
+	} while (s.compare("6174") != 0 && s.compare("0000") != 0);
 	return 0;
 }

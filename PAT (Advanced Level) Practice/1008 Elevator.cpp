@@ -1,24 +1,16 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using namespace std;
-
-// up - 6s  stay - 5s down - 4s
-int main()
-{
-	int n;
+int main() {
+	int n, floor, cur = 0, sum = 0;
 	scanf("%d", &n);
-	
-	int now = 0;
-	int old = 0;
-	int sum = 0; 
-	for (int i = 0; i < n; ++i)	//读取目标楼层 
-	{
-		scanf("%d", &now);
-		if (now >= old) 
-			sum += (now - old) * 6 + 5;
-		else 
-			sum += (old - now) * 4 + 5;
-		old = now;
+	for (int i = 0; i < n; ++i) {
+		scanf("%d", &floor);
+		if (floor > cur) {
+			sum += (floor - cur) * 6 + 5; // 上
+		} else {
+			sum += (cur - floor) * 4 + 5; // 下
+		}
+		cur = floor;
 	}
 	printf("%d", sum);
 	return 0;

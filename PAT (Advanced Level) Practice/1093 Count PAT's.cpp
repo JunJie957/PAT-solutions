@@ -1,47 +1,22 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <vector>
 using namespace std;
-
-const int MAXN = 100010;
-int count_p[MAXN] = { 0 };
-
-int main()
-{
+int main() {
 	string str;
 	cin >> str;
-
-	int size = str.length();
-	for (int i = 0; i < size; ++i)
-	{
-		if (i > 0)
-		{
-			count_p[i] = count_p[i - 1];
-		}
-
-		if (str[i] == 'P')
-		{
-			count_p[i]++;
+	int len = str.length();
+	vector<int> cp(len, 0);
+	for (int i = 0; i < len; ++i) {
+		if (i > 0) cp[i] = cp[i - 1];
+		if (str[i] == 'P') cp[i] += 1;
+	}
+	int t = 0, sum = 0;
+	for (int i = len - 1; i >= 0; --i) {
+		if (str[i] == 'T') ++t;
+		else if (str[i] == 'A' && t > 0 && cp[i] > 0) {
+			sum = (sum + cp[i] * t) % 1000000007;
 		}
 	}
-
-	int ans = 0; 
-	int right = 0;
-	for (int j = size - 1; j >= 0; --j)
-	{
-		if (str[j] == 'T')
-		{
-			right++;
-		}
-		else if(str[j] == 'A' && right > 0 && count_p[j] > 0)
-		{
-			ans += count_p[j] * right;
-			if (ans >= 1000000007)
-			{
-				ans %= 1000000007;
-			}
-		}
-	}
-	printf("%d", ans);
+	printf("%d", sum);
 	return 0;
 }
