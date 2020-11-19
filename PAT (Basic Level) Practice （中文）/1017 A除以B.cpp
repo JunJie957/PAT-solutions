@@ -1,28 +1,20 @@
 #include <iostream>
 #include <string>
 using namespace std;
-
-int main()
-{
+int main() {
+	int r;
 	string s;
-	int b;
-	cin >> s >> b;
-	
-	int q = (s[0] - '0') / b;	// ษฬ
-	int r = (s[0] - '0') % b;	// ำเสý
-
-	if ((q != 0 && s.size() > 1) || s.size() == 1) cout << q;
-
-	for (int i = 1; i < s.size(); ++i)
-	{
-		r = r * 10;
-
-		q = ((s[i] - '0') + r) / b;
-		r  = ((s[i] - '0') + r) % b;
-
-		cout << q;
+	cin >> s >> r;
+	int len = s.length();
+	int a = (s[0] - '0') / r;
+	int b = (s[0] - '0') % r;
+	if (a != 0 || len == 1) printf("%d", a);
+	for (int i = 1; i < len; ++i) {
+		b = b * 10;
+		a = ((s[i] - '0') + b) / r;
+		b = ((s[i] - '0') + b) % r;
+		printf("%d", a);
 	}
-	cout << " " << r;
-
+	printf(" %d", b);
 	return 0;
 }

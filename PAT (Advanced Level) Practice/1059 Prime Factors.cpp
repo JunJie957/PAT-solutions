@@ -1,66 +1,39 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <math.h>
-#include <vector>
+#include <map>
 using namespace std;
-
-int main()
-{
-	long int n;
-	scanf("%ld", &n);
-	printf("%ld=", n);
-
-	// n = 1，特殊处理，因为素数查找是从 2 开始的
-	if (n == 1)
-	{
-		printf("1");
-		return 0;
-	}
-
-	// find prime
-	vector<bool> notPrime(n, 0);	// 默认[0,n]全为素数
-	vector<int> prime;
-	int sqr_n = sqrt(n);
-	for (int i = 2; i <= sqr_n; ++i)
-	{
-		if (notPrime[i] == false)
-		{
-			prime.push_back(i);
-			for (int j = i + i; j <= sqr_n; j += i)
-			{
-				notPrime[j] = true; // 将此素数的所有倍数标记为非素数
-			}
-		}
-	}
-
-	// found factor
-	vector<pair<int, int>> factor;
-	int p_size = prime.size();
-	for (int i = 0; i < p_size; ++i)
-	{
-		if (n % prime[i] == 0)
-		{
-			factor.push_back(make_pair(prime[i], 1));
-			n /= prime[i];
-			
-			while (n % prime[i] == 0)
-			{
-				factor[factor.size() - 1].second++;
-				n /= prime[i];
-			}
-		}
-	}
-
-	// 如果n还未被除尽，则说明有一个质因子在[sqrt(n),n]之间，将其包含在质因子数组中
-	if (n != 1) factor.push_back(make_pair(n, 1));
-
-	// 执行打印
-	int size = factor.size();
-	for (int i = 0; i < size; ++i)
-	{
-		if (i != 0) printf("*");
-		printf("%d", factor[i].first);
-		if (factor[i].second != 1) printf("^%d", factor[i].second);
-	}
-	return 0;
+bool isPrime(int n) {
+    if (n <= 1) return false;
+    int sqr = sqrt(n);
+    for (int i = 2; i <= sqr; ++i)
+        if (n % i == 0) return false;
+    return true;
+}
+int main() {
+    long int n;
+    scanf("%ld", &n);
+    printf("%ld=", n);
+    long int sqr = sqrt(n);
+    map<int, int> m;
+    if (n == 1) m[1] = 1;
+    for (int i = 2; i <= sqr; ++i) {
+        if (n % i == 0 && isPrime(i)) {
+            int cnt = 0;
+            while (n % i == 0) {
+                ++cnt;
+                n /= i;
+            }
+            m[i] = cnt;
+        }
+        if (n == 1) break;
+    }
+    if (n != 1) m[n]++;
+    bool flag = true;
+    for (auto& iter : m) {
+        if (flag) flag = false;
+        else printf("*");
+        printf("%d", iter.first);
+        if (iter.second > 1) printf("^%d", iter.second);
+    }
+    return 0;
 }

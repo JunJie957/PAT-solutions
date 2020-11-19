@@ -1,3 +1,5 @@
+// 写法1 
+
 #define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 using namespace std;
@@ -44,3 +46,43 @@ int main()
     }
     return 0;
 }
+
+// 写法2
+
+#include <iostream>
+using namespace std;
+struct Number {
+    long int a; // 分子
+    long int b; // 分母
+    Number() :a(0), b(1) {};
+    bool operator=(Number& other) {
+        this->a = other.a;
+        this->b = other.b;
+        return true;
+    }
+};
+int main() {
+    int n, x, y;
+    scanf("%d", &n);
+    Number sum, tmp;
+    for (int i = 0; i < n; ++i) {
+        scanf("%d/%d", &x, &y);
+        tmp.b = sum.b * y;
+        tmp.a = sum.a * y + sum.b * x;
+        sum = tmp;
+        for (int i = min(sum.a, sum.b); i >= 2; --i) {
+            if (sum.a % i == 0 && sum.b % i == 0) {
+                sum.a /= i, sum.b /= i;
+                break;
+            }
+        }
+    }
+    if (sum.a % sum.b == 0) {
+        printf("%d", sum.a / sum.b);
+    } else if (sum.a > sum.b && sum.a % sum.b > 0) {
+        printf("%d %d/%d", sum.a / sum.b, sum.a % sum.b, sum.b);
+    } else {
+        printf("%d/%d", sum.a, sum.b);
+    }
+    return 0;
+} 

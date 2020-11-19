@@ -11,19 +11,19 @@ void func(long long m, long long n) {
         return;
     }
     bool flag = ((m < 0 && n > 0) || (m > 0 && n < 0));
+    if (flag) printf("(-");
     m = abs(m); n = abs(n);
     long long x = m / n;
-    printf("%s", flag ? "(-" : "");
     if (x != 0) printf("%lld", x);
     if (m % n == 0) {
         if (flag) printf(")");
-        return;
+    } else {
+        if (x != 0) printf(" ");
+        m -= x * n;
+        long long t = gcd(m, n);
+        m = m / t; n = n / t;
+        printf("%lld/%lld%s", m, n, flag ? ")" : "");
     }
-    if (x != 0) printf(" ");
-    m = m - x * n;
-    long long t = gcd(m, n);
-    m = m / t; n = n / t;
-    printf("%lld/%lld%s", m, n, flag ? ")" : "");
 }
 int main() {
     scanf("%lld/%lld %lld/%lld", &a, &b, &c, &d);
