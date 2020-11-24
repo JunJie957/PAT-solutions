@@ -1,36 +1,30 @@
-#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
 #include <string>
-#include <vector>
+#include <unordered_map>
 using namespace std;
-
-vector<string> v1{ "tret", "jan", "feb", "mar", "apr", "may", "jun", "jly", "aug", "sep", "oct", "nov", "dec" };
-vector<string> v2{  "   ", "tam", "hel", "maa", "huh", "tou", "kes", "hei", "elo", "syy", "lok", "mer", "jou" };
-
-int main() 
-{
-    int n, num;
-    scanf("%d", &n);
-    getchar();
-    
-    string str;
-    for (int i = 0; i < n; ++i) {
-        getline(cin, str);
-        if (str[0] >= '0' && str[0] <= '9') { // 数字转为火星文
-            num = stoi(str);
-            if (num < 13) printf("%s\n", v1[num].c_str());
-            else if (num % 13 == 0) printf("%s\n", v2[num/13].c_str());
-            else printf("%s %s\n", v2[num / 13].c_str(), v1[num % 13].c_str());
-        } else { // 火星文转为数字
-            num = 0;
-            string s1 = str.substr(0, 3), s2;
-            if (str.length() > 4) s2 = str.substr(4, 3);
-            for (int i = 1; i <= 12; ++i) {
-                if (s1 == v1[i] || s2 == v1[i]) num += i;
-                if (s1 == v2[i]) num += i * 13;
-            }
-            printf("%d\n", num);
-        }
-    }
-    return 0;
+unordered_map<string, int> first { {"tret",0} , {"jan",1}, {"feb",2},{"mar",3} , {"apr",4}, {"may",5},{"jun",6} , {"jly",7}, {"aug",8},{"sep",9} , {"oct",10}, {"nov",11},{"dec", 12} };
+unordered_map<int, string> first2{ {0,"tret"} , {1,"jan"}, {2,"feb"},{3,"mar"} , {4,"apr"}, {5,"may"},{6,"jun"} , {7,"jly"}, {8,"aug"},{9,"sep"} , {10,"oct"}, {11,"nov"},{12, "dec"} };
+unordered_map<string, int> second { {"tam",1},  {"hel",2},  {"maa",3} ,{"huh",4},  {"tou",5},  {"kes",6} ,{"hei",7},  {"elo",8}, {"syy",9} , {"lok",10}, {"mer",11}, {"jou", 12} };
+unordered_map<int, string> second2{ {1,"tam"},  {2,"hel",}, {3,"maa"} ,{4,"huh"},  {5,"tou",}, {6,"kes"} ,{7,"hei"},  {8,"elo",}, {9,"syy"} ,{10,"lok"}, {11,"mer"}, {12, "jou"} };
+int main() {
+	int n;
+	scanf("%d", &n);
+	getchar();
+	string num;
+	for (int i = 0; i < n; ++i) {
+		getline(cin, num);
+		if (isalpha(num[0])) {
+			if (num.length() == 3) {
+				printf("%d\n", first[num] != 0 ? first[num] : second[num] * 13);
+			} else {
+				printf("%d\n", second[num.substr(0, 3)] * 13 + first[num.substr(4)]);
+			}
+		} else {
+			int s = stoi(num);
+			printf("%s", s >= 13 ? second2[s / 13].c_str() : first2[s].c_str());
+			if (s >= 13 && s % 13 != 0) printf(" %s", first2[s % 13].c_str());
+			printf("\n");
+		}
+	}
+	return 0;
 }
