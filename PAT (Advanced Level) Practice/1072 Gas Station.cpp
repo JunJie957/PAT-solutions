@@ -8,16 +8,24 @@
 #include <string>
 using namespace std;
 
-const int MAXV = 1030;
+const int MAXV = 1020;
 const int INF = 1000000000;
 
-int n, m, k, DS, G[MAXV][MAXV];
+struct node {
+    int v;
+    int dis;
+    node(int a, int b) :v(a), dis(b) {}
+};
+
+ string s1, s2;
+int n, m, k, SD, u, v, w;
 int d[MAXV];
-bool vis[MAXV] = { false };
+bool vis[MAXV];
+vector<node> adj[MAXV];
 
 void Dijkstra(int s) {
-    memset(vis,false,sizeof(vis));
     fill(d, d + MAXV, INF);
+    fill(vis, vis + MAXV, false);
     d[s] = 0;
     for (int i = 0; i < n + m; ++i) {
         int u = -1, MIN = INF;
@@ -29,50 +37,48 @@ void Dijkstra(int s) {
         }
         if (u == -1) return;
         vis[u] = true;
-        for (int v = 1; v <= n + m; ++v) {
-            if (vis[v] == false && G[u][v] != INF) {
-                if (d[u] + G[u][v] < d[v]) {
-                    d[v] = d[u] + G[u][v];
-                }
+        for (int j = 0; j < adj[u].size(); ++j) {
+            int v = adj[u][j].v;
+            int dis = adj[u][j].dis;
+            if (vis[v] == false && dis + d[u] < d[v]) {
+                d[v] = d[u] + dis;
             }
         }
     }
 }
 
 int getID(string s) {
-    if (s[0] != 'G') return stoi(s); 
+    if (s[0] != 'G') return stoi(s);
     return n + stoi(s.substr(1));
 }
 
 int main() {
-    scanf("%d%d%d%d", &n, &m, &k, &DS);
-    int u, v, w;
-    string s1, s2;
-    fill(G[0], G[0] + MAXV * MAXV, INF);
+    scanf("%d%d%d%d", &n, &m, &k, &SD);
     for (int i = 0; i < k; ++i) {
         cin >> s1 >> s2 >> w;
         u = getID(s1);
         v = getID(s2);
-        G[u][v] = G[v][u] = w;
+        adj[u].emplace_back(node(v, w));
+        adj[v].emplace_back(node(u, w));
     }
     int ansID = -1;
-    double ansDis = -1, ansAvg = INF;
+    double ansDis = -1, ansAvg = 0;
     for (int i = n + 1; i <= n + m; ++i) {
         double minDis = INF, avg = 0;
         Dijkstra(i);
         for (int j = 1; j <= n; ++j) {
-            if (d[j] > DS) {
+            if (d[j] > SD) {
                 minDis = -1;
                 break;
             }
             if (d[j] < minDis) minDis = d[j];
-            avg += 1.0 * d[j] / n;
+            avg += d[j] * 1.0 / n;
         }
         if (minDis == -1) continue;
         if (minDis > ansDis) {
             ansID = i;
-            ansDis = minDis;
             ansAvg = avg;
+            ansDis = minDis;
         } else if (minDis == ansDis && avg < ansAvg) {
             ansID = i;
             ansAvg = avg;
